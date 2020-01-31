@@ -1,0 +1,7 @@
+node {
+    stage 'disp message'
+    sh 'echo HELLO Pipeline.'
+
+    stage 'disp date'
+    sh 'date'
+}
