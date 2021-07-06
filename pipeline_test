@@ -3,29 +3,44 @@ pipeline {
     stages {
         stage('Parallel') {
             parallel {
-                stage('Branch A') {
-                    steps {
-                        echo "On Branch A"
-                        script {
-                            retry(5) {
-                                sh "python3 hoge.py"
+                stage('Branch correct') {
+                    stages {
+                        stage('run') {
+                            steps {
+                                script {
+                                    retry(5) {
+                                        sh "python3 sort.py correct_sort sample1.csv"
+                                    }
+                                }
+                            }
+                        }
+                        stage('check') {
+                            steps {
+                                script {
+                                    retry(5) {
+                                        sh "python3 check.py result_sample1.csv"
+                                    }
+                                }
                             }
                         }
                     }
                 }
-                stage('Branch C') {
+                stage('Branch incorrect') {
                     stages {
-                        stage('Nested 1') {
+                        stage('run') {
                             steps {
-                                echo "In stage Nested 1 within Branch C"
-                            }
-                        }
-                        stage('Nested 2') {
-                            steps {
-                                echo "In stage Nested 2 within Branch C"
                                 script {
                                     retry(5) {
-                                        sh "python3 hoge.py"
+                                        sh "python3 sort.py correct_sort sample2.csv"
+                                    }
+                                }
+                            }
+                        }
+                        stage('check') {
+                            steps {
+                                script {
+                                    retry(5) {
+                                        sh "python3 check.py result_sample2.csv"
                                     }
                                 }
                             }
