@@ -4,25 +4,16 @@ pipeline {
         stage('Parallel') {
             parallel {
                 stage('Branch A') {
-                    agent {
-                        label "for-branch-a"
-                    }
                     steps {
                         echo "On Branch A"
-                    }
-                }
-                stage('Branch B') {
-                    agent {
-                        label "for-branch-b"
-                    }
-                    steps {
-                        echo "On Branch B"
+                        script {
+                            retry(5) {
+                                sh "python3 hoge.py"
+                            }
+                        }
                     }
                 }
                 stage('Branch C') {
-                    agent {
-                        label "for-branch-c"
-                    }
                     stages {
                         stage('Nested 1') {
                             steps {
@@ -32,6 +23,11 @@ pipeline {
                         stage('Nested 2') {
                             steps {
                                 echo "In stage Nested 2 within Branch C"
+                                script {
+                                    retry(5) {
+                                        sh "python3 hoge.py"
+                                    }
+                                }
                             }
                         }
                     }
