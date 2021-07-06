@@ -23,8 +23,8 @@ def main():
 def check_sorted(lst):
     num = -999
     for l in lst:
-        if num <= l:
-            num = l
+        if num <= int(l):
+            num = int(l)
         else:
             return False
     return True
