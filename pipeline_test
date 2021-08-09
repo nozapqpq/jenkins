@@ -16,5 +16,10 @@ pipeline {
                 sh 'python3 check.py output.txt'
             }
         }
+        stage('archive') {
+            steps {
+                archiveArtifacts "*.txt"
+            }
+        }
     }
 }
