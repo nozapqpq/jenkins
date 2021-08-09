@@ -1,53 +1,14 @@
 pipeline {
     agent any
     stages {
-        stage('Parallel') {
-            parallel {
-                stage('Branch correct') {
-                    stages {
-                        stage('run') {
-                            steps {
-                                script {
-                                    retry(5) {
-                                        sh "python3 sort.py correct_sort sample1.csv"
-                                    }
-                                }
-                            }
-                        }
-                        stage('check') {
-                            steps {
-                                script {
-                                    retry(5) {
-                                        sh "python3 check.py result_sample1.csv"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('Branch incorrect') {
-                    stages {
-                        stage('run') {
-                            steps {
-                                script {
-                                    retry(5) {
-                                        sh "python3 sort.py correct_sort sample2.csv"
-                                    }
-                                }
-                            }
-                        }
-                        stage('check') {
-                            steps {
-                                script {
-                                    retry(5) {
-                                        sh "python3 check.py result_sample2.csv"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        stage('build') {
+            sh 'gcc -o output run.c'
+        }
+        stage('run') {
+            sh './output'
+        }
+        stage('check') {
+            sh 'python3 check.py output.txt'
         }
     }
 }

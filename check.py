@@ -6,28 +6,25 @@ def main():
     target_lst = []
     ok_flg = True
     args = sys.argv
-    csvname = args[1]
-    with open(csvname) as file:
-        target_lst = list(csv.reader(file))
+    txtname = args[1]
+    with open(txtname) as f:
+        for line in f:
+            target_lst.append(line[0:-1])
 
-    for lst in target_lst:
-        if not check_sorted(lst):
+    for l in target_lst:
+        if not check_expected(l):
             ok_flg = False
 
-    with open("result.txt", 'w') as file:
+    with open("result.txt", 'w') as f:
         if ok_flg:
-            file.write('OK')
+            print("OK")
+            f.write('OK')
         else:
-            file.write('NG')
+            print("NG")
+            f.write('NG')
 
-def check_sorted(lst):
-    num = -999
-    for l in lst:
-        if num <= int(l):
-            num = int(l)
-        else:
-            return False
-    return True
+def check_expected(s):
+    return s == "ABCDEFG"
 
 if __name__ == "__main__":
     main()
