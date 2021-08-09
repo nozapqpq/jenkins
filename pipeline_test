@@ -2,13 +2,19 @@ pipeline {
     agent any
     stages {
         stage('build') {
-            sh 'gcc -o output run.c'
+            steps {
+                sh 'gcc -o output run.c'
+            }
         }
         stage('run') {
-            sh './output'
+            steps {
+                sh './output'
+            }
         }
         stage('check') {
-            sh 'python3 check.py output.txt'
+            steps {
+                sh 'python3 check.py output.txt'
+            }
         }
     }
 }
