@@ -9,8 +9,7 @@ int main() {
         printf("file cannot open\n");
         exit(1);
     }
-    for() {
-    fprintf(fp, "ABCDEFG\n");
+    fprintf(fp, "ABCDEF\n");
     fclose(fp);
     return 0;
 }
